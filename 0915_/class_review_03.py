@@ -38,18 +38,18 @@ class RPSGame:
         else:
             return "컴퓨터 승리"
         
-def play(self):
-    while True:
-        self.get_user_choice()
-        self.get_computer_choice()
-        print(f"사용자 선택: {self.choices[self.user_choice]}, 컴퓨터 선택: {self.choices[self.computer_choice]}")
-        result = self.determine_winner()
-        print(f"결과: {result}")
-        
-        again = input("다시 하시겠습니까? (y/n): ").lower()
-        if again != 'y':
-            print("게임을 종료합니다.")
-            break
+    def play(self):
+        while True:
+            self.get_user_choice()
+            self.get_computer_choice()
+            print(f"사용자 선택: {self.choices[self.user_choice]}, 컴퓨터 선택: {self.choices[self.computer_choice]}")
+            result = self.determine_winner()
+            print(f"결과: {result}")
+            
+            again = input("다시 하시겠습니까? (y/n): ").lower()
+            if again != 'y':
+                print("게임을 종료합니다.")
+                break
 
 # for _ in range(1): # 반복문을 통해서 게임을 계속 진행
 while True:
