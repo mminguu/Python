@@ -26,7 +26,7 @@ class Product:
             return self._stock
         
         def __str__(self):
-            return f'상품명 : {self.product_name} / 가격 : {self.product_price} / 재고 : {self.product_stock}'
+            return f'상품명 : {self.product_name} / 가격 : {self.product_price} / 재고 : {self.product_stock}' #\n 줄바꿈
 
 Products = [
     Product('아이폰', 1700000, 55),
@@ -35,11 +35,22 @@ Products = [
 ]
 
 for p in Products:
+    # 노트북의 가격을 20% 인하
+    if p.product_name == '노트북':
+        p.product_price = p.product_price * 0.8 # 코드값
+
+for p in Products:
+    # 스마트폰은 가격을 10% 인상
+    if p.product_name == '아이폰':
+        p.product_price = p.product_price * 1.1 + p.product_price * 0.1
     print(p.product_name, p.product_price, p.product_stock)
 
-# 노트북의 가격을 20% 인하
-# 스마트폰은 가격을 10% 인상
 # 전체제품 출력
+for p in Products:
+    print(p)
+
+
+
 # 제품 추가
 # 제품 삭제 = 수량이 남아 있으면 삭제 못하게
 # 현재 모든 제품의 수량의 합
