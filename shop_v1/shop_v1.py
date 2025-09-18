@@ -44,16 +44,29 @@ def readAll_customers(isDict = False):
             print(f'{c[0]}  {c[1]}')
     print('조회완료')
 
-def update_customer(customer_id,name):
+def update_customer(customer_id , name):
     sql = '''
         update customer
             set name = %s
         where customer_id = %s
         '''
     with conn.cursor() as cur:
-        cur = conn.cursor()
-        cur.execute(sql, (customer_id,name))
+        cur.execute(sql, (name,customer_id))
     conn.commit()
+    print(f'업데이트되었습니다. {customer_id} {name}')
+
+def delete_customer(customer_id):
+    sql = 'delete from customer where customer_id = %s'
+    with conn.cursor() as cur:
+        cur.execute(sql, customer_id)
+    conn.commit()
+    print(f'삭제되었습니다. {customer_id}')
+
+create_customer('abc')
+readAll_customers()
+update_customer(1,'abc')
+delete_customer(1)
+
 
 
 # 3. 메소드 (액션)
