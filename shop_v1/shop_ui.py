@@ -1,16 +1,13 @@
 import streamlit as st
 import pandas as pd
-import shop_v1
+import shopv1
 
 st.set_page_config(layout="wide")
 
 # 초기 회원 데이터
 if "members" not in st.session_state:
-    st.session_state.members = pd.DataFrame([
-        {"회원아이디": "user01", "회원이름": "홍길동"},
-        {"회원아이디": "user02", "회원이름": "이몽룡"},
-        {"회원아이디": "user03", "회원이름": "성춘향"}
-    ])
+    datas = shopv1.readAll_customers()
+    st.session_state.members = pd.DataFrame(datas)
 
 # 현재 선택된 회원
 if "selected_member_index" not in st.session_state:
@@ -37,8 +34,8 @@ with right_col:
         # 회원 리스트 테이블
         for i, row in st.session_state.members.iterrows():
             col1, col2, col3, col4 = st.columns([2, 2, 1, 1])
-            with col1:
-                if st.button(row["회원아이디"], key=f"id_{i}"):
+            with col1:                
+                if st.button(str(row["회원아이디"]), key=f"id_{i}"):
                     st.session_state.selected_member_index = i
             with col2:
                 if st.button(row["회원이름"], key=f"name_{i}"):
@@ -72,11 +69,14 @@ with right_col:
                 if st.session_state.selected_member_index is not None:
                     st.session_state.members.at[st.session_state.selected_member_index, "회원아이디"] = member_id
                     st.session_state.members.at[st.session_state.selected_member_index, "회원이름"] = member_name
-                    st.success("회원정보 수정 완료")
+                    print('****',member_id,member_name,type(member_id), type(member_name))
+                    shopv1.update_customer(member_id,member_name)
                     st.rerun()
                 else:
                     st.session_state.members.loc[len(st.session_state.members)] = {"회원아이디": member_id, "회원이름": member_name}
-                    st.success("신규 회원 추가 완료")
+                    # 데이터 추가 로직
+                    shopv1.create_customer(member_name)
+                    del st.session_state.members
                     st.rerun()
         with col_b:
             if st.button("입력 초기화"):

@@ -23,31 +23,34 @@ print('접속성공')
 # 고객 - customer
 def create_customer(name):
     sql = 'insert into customer values(null,%s)'
-    cur = conn.cursor()
-    cur.execute(sql, name)
-    conn.commit()
+    with conn.cursor() as cur:
+        cur.execute(sql, name)
+        conn.commit()
     print('고객추가 완료')
 
-
-
-
-
+# [
+#         {"회원아이디": "user01", "회원이름": "홍길동"},
+#         {"회원아이디": "user02", "회원이름": "이몽룡"},
+#         {"회원아이디": "user03", "회원이름": "성춘향"}
+#     ]
 
 def readAll_customers(isDict = False):
     sql = 'select * from customer'     
     result = []
     if isDict:
-        cur = conn.cursor(pymysql.cursors.DictCursor)
-        cur.execute(sql)
-        for c in cur.fetchall():             
-            print(f"{c['customer_id']}  {c['name']}")
+        with conn.cursor(pymysql.cursors.DictCursor) as cur:
+            cur.execute(sql)
+            for c in cur.fetchall():             
+                print(f"{c['customer_id']}  {c['name']}")
     else:
-        cur = conn.cursor()
-        cur.execute(sql)
-        for c in cur.fetchall():            
-            print(f'{c[0]}  {c[1]}')
-            result.append({"회원아이디": c[0], "회원이름": c[1]})
-    print(f'조회완료 {result}')
+        with conn.cursor() as cur:
+            cur.execute(sql)
+            for c in cur.fetchall():            
+                print(f'{c[0]}  {c[1]}')
+                result.append(
+                    {"회원아이디": c[0], "회원이름": c[1]}
+                    )    
+    print(f'조회완료')    
     return result
 
 def update_customer(customer_id , name):
@@ -89,5 +92,3 @@ delete_customer(1)
 
 
 # conn.close() # 접속해제
-
-
