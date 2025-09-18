@@ -1,2 +1,8 @@
-.vscode
-.env
+# 가상환경
+.vscode 
+# 환경변수
+.env 
+# 파이썬
+*.splite3
+*.__pycache__/
+*.db
