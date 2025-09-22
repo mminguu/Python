@@ -1,11 +1,12 @@
-
-# shop_base2_tbl
+# pip install pymysql # mysql을 접속할 수 있는 라이브러리
+# pip install dotenv  # 환경변수 .env를 로드할수 있는 라이브러리
 import pymysql
 from dotenv import load_dotenv
 import os
 # .env 로드
 load_dotenv()
 
+# 1. DB 연결
 def get_connection():
     return pymysql.connect(
         host = os.getenv('DB_HOST'),
@@ -13,20 +14,15 @@ def get_connection():
         password = os.getenv('DB_PASSWORD'),
         database='shopinfo'
     )
+
 import crawlingcoffee
-datas = crawlingcoffee.get_data()
-with get_connection() as conn:
-    with conn.cursor() as cur:
-        for data in datas:
-            try:
-                sql = 'insert into shop_base2_tbl values(%s,%s,%s,%s,%s)'
-                cur.execute(sql, (data[0],data[1],data[2],data[3],data[4]))
-            except pymysql.err.IntegrityError:
-                sql = '''update shop_base2_tbl
-                            set shop_state=%s, shop_addr=%s,shop_phone_number=%s
-                        where shop_area=%s and shop_name=%s
+for page_num in range(1,47):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            sql = '''
+                insert into shop_base2_tbl
+                    values(%s,%s,%s,%s,%s)
                 '''
-                cur.execute(sql, (data[2],data[3],data[4],data[0],data[1]))
-                conn.commit()
-            else:
-                conn.commit()
+            # cur.execute(sql,( , , , ,  )  )
+            cur.executemany(sql,crawlingcoffee.get_data(page_num))  # row를 구성하는 튜플들의 리스트
+        conn.commit()
