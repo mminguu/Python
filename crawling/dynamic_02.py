@@ -20,10 +20,9 @@ driver.get(url)
 driver.maximize_window() # 전체화면으로 실행
 print('사이트 접속했습니다.')
 # 사이트가 로드 될때까지 기다림.
-WebDriverWait(driver,10).until(
+WebDriverWait(driver,30).until(
     EC.presence_of_all_elements_located((By.CLASS_NAME , 'recordSection'))
 )
-
 year_select = driver.find_element(By.ID, 'selMonth')
 # 객체로 만든다
 select_year = Select(year_select)
@@ -35,9 +34,9 @@ select_month = Select(month_select)
 # select_month.select_by_value('01')
 for i in range(1,13):
     select_month.select_by_value(f'{i:02}')
-    time.sleep(1)
+    time.sleep(60)
 
-time.sleep(10)
+time.sleep(60)
 driver.quit()
 
 

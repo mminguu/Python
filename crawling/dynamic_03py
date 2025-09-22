@@ -20,9 +20,11 @@ driver.get(url)
 print('사이트 접속했습니다.')
 # 사이트가 로드될때까지 기다린다.
 time.sleep(3)
+
 radio = driver.find_element(By.CSS_SELECTOR,"input[name = rdoMonthPeriod][value='period']")
 radio.click()
 time.sleep(1)
+
 select = Select(driver.find_element(By.ID,'selMonthFrom'))
 select.select_by_value('2023')
 time.sleep(1)
