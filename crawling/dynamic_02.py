@@ -7,6 +7,8 @@ from selenium.webdriver.common.keys import Keys # enter키 등을 입력하기 �
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
+from bs4 import BeautifulSoup
+
 url = 'https://auto.danawa.com/newcar/?Work=record'
 
 # 웹 드라이버를 자동으로 설치하고 최신버전을 유지
