@@ -20,7 +20,7 @@ soup = BeautifulSoup(response.text,'html.parser')
 str_table_rows = '#contents > div.content > fieldset > fieldset > div.tableType01 > table > tbody > tr'
 # tbody > tr 줘도 됌. 하지만 플젝할때 여러개 조사할때 겹칠 수 있기때문에 재대로된 경로 정보 추출하여 변수 설정해주는거임.
 # print(type(store_rows[0]))
-sotre_rows = soup.select(str_table_rows)
+sotre_rows = soup.select(str_table_rows) # 화면 출력
 for row in sotre_rows:
     print(row.select('td')[0].text.strip())  # 지역
     print(row.select('td')[1].text.strip())  # 매장명
@@ -28,4 +28,8 @@ for row in sotre_rows:
     print(row.select('td')[3].text.strip())  # 주소
     print(row.select('td')[5].text.strip())  # 전화번호
     print('*'*100)
+
+
+
+
 
