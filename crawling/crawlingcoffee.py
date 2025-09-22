@@ -1,10 +1,10 @@
 import requests
-def get_data():
+def get_data(page_num):
     # 데이터를 요청 할 주소
     url = 'https://www.hollys.co.kr/store/korea/korStore2.do?'
     # 서버에 보낼 데이터(1페이지를 보여달라는 의미로)
     from_data = {
-        'pageNo' : 1,
+        'pageNo' : page_num, # 1이면 1페이지 , 2이면 2페이지의 정보를 가져오는!
         'sido' : '',
         'gugun' : '',
         'store' : ''
@@ -32,5 +32,5 @@ def get_data():
             row.select('td')[5].text.strip()
             )
         )    
-    # print(store_lists)    
+    # print(store_lists)
     return store_lists
