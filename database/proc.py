@@ -19,16 +19,15 @@ conn = pymysql.connect(
 # 프로시져 호출
 try:
     with conn.cursor() as cursor:
-        # 프로시저 호출
         cursor.callproc(
             "AddCodeWithTransaction",
-            ['ADDR','서울','서울특별시',7,'Y']  # 프로시저 파라미터 순서대로 입력
+            ['ADDR','서울','서울특별시',7,'Y'] 
         )
         
-        # 프로시저 안에서 SELECT 한 결과 가져오기
+        # SELECT 한 결과
         result = cursor.fetchall()
-        print(result)  # ex) [('code added success',)] 또는 [('code already existes',)]
+        print(result)
 
-    conn.commit()  # commit은 select만 하는 프로시저면 불필요, insert/update 포함이면 안전하게!
+    conn.commit()
 finally:
     conn.close()
