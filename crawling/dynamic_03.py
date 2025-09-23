@@ -40,21 +40,34 @@ time.sleep(1)
 
 select = Select(driver.find_element(By.ID,'selDayTo'))
 select.select_by_value('12')
-time.sleep(1)
 
 # 조회버튼 클릭 ##monthPeriodDiv > span:nth-child(2) > input[type=button] 
 # 속성 중에 disalble = True 인 엘리먼트는 사용자 클릭을 막아놓음
 btn = driver.find_element(By.XPATH,'//*[@id="monthPeriodDiv"]/span[2]/input')
-driver.execute_script('argument[0].click()', btn) # 사용자 마우스 클릭 이벤트를 발생
+driver.execute_script('arguments[0].click()', btn) # 사용자 마우스 클릭 이벤트를 발생
 # driver.execute_script('selectRedord('period')') 직접 실행
 
 time.sleep(3)
-more = driver.find_element(By.XPATH,'//*[@id="autodanawa_gridC"]/div[3]/article/main/div/div[2]/div[1]/a')
-more.click(0)
+more = driver.find_element(By.XPATH,'//*[@id="monthPeriodDiv"]/span[2]/input')
+time.sleep(3)
 
-driver.page_source  # --> 셀리니움 문법을 이용해서 원하는 태그의 속한 텍스트를 추출
 
-time.sleep(10)
 
-# 브라우저 종료
+# 셀리니움 문법을 이용해서 원하는 태그의 속한 텍스트를 추출
+
+soup = BeautifulSoup(driver.page_source,'html.parser') #BeautifulSoup -> HTML 코드를 파이썬이 이해할 수 있는 구조로 바꿔줌
+tr_lists = soup.select('#autodanawa_gridC > div.gridMain > article > main > div > table > tbody > tr')
+for tr in tr_lists:
+    try:
+        td_lists = tr.select('td')
+        print(td_lists[3].select_one('td.title a').text.strip(), end='\t')
+        print(td_lists[4].text.strip(), end='\t')
+        print(td_lists[5].text.strip())
+        
+    except Exception as e:
+        pass
+
+
+time.sleep(30)
+# 브라우져 종료
 driver.quit()
